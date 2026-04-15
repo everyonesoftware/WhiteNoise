@@ -48,8 +48,6 @@ jobs:
         with:
           tag_name: build-${{ github.run_number }}
           name: Build ${{ github.run_number }}
-          files:
-            - app/build/outputs/apk/release/app-release.apk
-            # - app/release/app-release.aab
+          files: app/build/outputs/apk/release/app-release.apk
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
