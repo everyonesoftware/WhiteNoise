@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 
+// Simple change to trigger GitHub action
+
 class MainActivity : AppCompatActivity() {
     private var isPlaying = false
 
