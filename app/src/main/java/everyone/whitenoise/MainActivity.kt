@@ -12,7 +12,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         val button = Button(this).apply {
-            text = "Start White Noise"
+            text = "Start Noise"
             setOnClickListener {
                 toggleNoise(this)
             }
