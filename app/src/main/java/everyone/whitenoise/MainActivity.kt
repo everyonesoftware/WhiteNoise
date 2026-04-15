@@ -1,6 +1,7 @@
 package everyone.whitenoise
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
@@ -21,7 +22,13 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        setContentView(button)
+        // Root layout (full black screen)
+        val root = android.widget.FrameLayout(this).apply {
+            setBackgroundColor(Color.BLACK)
+            addView(button)
+        }
+
+        setContentView(root)
     }
 
     private fun toggleNoise(button: Button) {
