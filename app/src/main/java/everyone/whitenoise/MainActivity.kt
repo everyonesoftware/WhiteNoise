@@ -8,11 +8,14 @@ import androidx.appcompat.app.AppCompatActivity
 class MainActivity : AppCompatActivity() {
     private var isPlaying = false
 
+    private val startNoiseText = "Start Noise"
+    private val stopNoiseText = "Stop Noise"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val button = Button(this).apply {
-            text = "Start Noise"
+            text = startNoiseText
             setOnClickListener {
                 toggleNoise(this)
             }
@@ -26,10 +29,10 @@ class MainActivity : AppCompatActivity() {
 
         if (isPlaying) {
             stopService(intent)
-            button.text = "Start White Noise"
+            button.text = startNoiseText
         } else {
             startForegroundService(intent)
-            button.text = "Stop White Noise"
+            button.text = stopNoiseText
         }
 
         isPlaying = !isPlaying
