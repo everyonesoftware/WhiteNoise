@@ -1,8 +1,10 @@
 package everyone.whitenoise
 
-import kotlin.random.Random
+class PinkNoiseGenerator : NoiseGenerator() {
 
-class PinkNoiseGenerator {
+    companion object {
+        const val NOISE_NAME = "Pink Noise"
+    }
 
     private var b0 = 0.0
     private var b1 = 0.0
@@ -12,7 +14,7 @@ class PinkNoiseGenerator {
     private var b5 = 0.0
     private var b6 = 0.0
 
-    fun nextSample(): Short {
+    override fun getNextSample(): Short {
         val white = Math.random() * 2 - 1.0
 
         b0 = 0.99886 * b0 + white * 0.0555179

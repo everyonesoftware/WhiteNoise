@@ -1,11 +1,12 @@
 package everyone.whitenoise
 
-import kotlin.random.Random
-
-class BrownNoiseGenerator {
+class BrownNoiseGenerator : NoiseGenerator() {
+    companion object {
+        const val NOISE_NAME = "Brown Noise"
+    }
     private var last = 0.0
 
-    fun nextSample(): Short {
+    override fun getNextSample(): Short {
         val white = (Math.random() * 2 - 1) // -1 to 1
         last = (last + white * 0.02) // smoothing factor
 

@@ -9,17 +9,38 @@ import android.media.*
 import android.os.Build
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
+import kotlin.concurrent.Volatile
 import kotlin.concurrent.thread
-import kotlin.random.Random
 
-class WhiteNoiseService : Service() {
+class NoiseService : Service() {
+    companion object {
+        const val NOISE_NAME = "noise_type"
+    }
 
     private var isRunning = false
     private lateinit var audioTrack: AudioTrack
 
+    @Volatile
+    private var noiseGenerator: NoiseGenerator = WhiteNoiseGenerator()
+
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        startForeground(1, createNotification())
-        startNoise()
+        noiseGenerator = WhiteNoiseGenerator()
+        intent?.getStringExtra(NOISE_NAME)?.let { typeString ->
+            if(typeString == BrownNoiseGenerator.NOISE_NAME)
+            {
+                noiseGenerator = BrownNoiseGenerator()
+            }
+            else if (typeString == PinkNoiseGenerator.NOISE_NAME)
+            {
+                noiseGenerator = PinkNoiseGenerator()
+            }
+        }
+
+        if (!isRunning) {
+            startForeground(1, createNotification())
+            startNoise()
+        }
+
         return START_STICKY
     }
 
@@ -31,7 +52,10 @@ class WhiteNoiseService : Service() {
     override fun onBind(intent: Intent?): IBinder? = null
 
     private fun startNoise() {
-        if (isRunning) return
+        if (isRunning)
+        {
+            return
+        }
         isRunning = true
 
         val sampleRate = 44100
@@ -64,11 +88,9 @@ class WhiteNoiseService : Service() {
 
         thread(start = true) {
             val buffer = ShortArray(bufferSize)
-            val noiseGenerator = BrownNoiseGenerator()
-
             while (isRunning) {
                 for (i in buffer.indices) {
-                    buffer[i] = noiseGenerator.nextSample()
+                    buffer[i] = noiseGenerator.getNextSample()
                 }
                 audioTrack.write(buffer, 0, buffer.size)
             }
